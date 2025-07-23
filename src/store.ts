@@ -44,6 +44,13 @@ const mockVehicles: Vehicle[] = [
     speed: 0,
     updated_at: "2025-07-23T09:30:00Z",
   },
+    {
+    id: 3,
+    name: "BMW E36",
+    status: "INACTIVE",
+    speed: 0,
+    updated_at: "2025-07-23T09:30:00Z",
+  },
 ];
 
 const mockVehicleDetails: VehicleDetail[] = [
@@ -58,6 +65,15 @@ const mockVehicleDetails: VehicleDetail[] = [
   },
   {
     vehicleId: 2,
+    odometer: 98765.43,
+    fuel_level: 20.5,
+    timestamp: "2025-07-23T09:30:00Z",
+    latitude: -6.15,
+    longitude: 106.90,
+    speed: 0,
+  },
+    {
+    vehicleId: 3,
     odometer: 98765.43,
     fuel_level: 20.5,
     timestamp: "2025-07-23T09:30:00Z",
