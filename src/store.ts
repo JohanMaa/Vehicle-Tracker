@@ -36,7 +36,7 @@ export const useVehicleStore = create<VehicleState>((set) => ({
   fetchVehicles: async () => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch('https://wij.vercel.app/');
+      const response = await fetch('https://wij.vercel.app/vehicles');
       if (!response.ok) throw new Error('Failed to fetch vehicles');
       const data = await response.json();
       set({ vehicles: data, loading: false });
@@ -49,7 +49,7 @@ export const useVehicleStore = create<VehicleState>((set) => ({
   fetchVehicleDetail: async (id: number) => {
     set({ loading: true, error: null });
     try {
-      const response = await fetch(`http://localhost:3001/vehicleDetails/${id}`);
+      const response = await fetch(`https://wij.vercel.app/vehicleDetails/${id}`);
       if (!response.ok) throw new Error('Failed to fetch vehicle details');
       const data = await response.json();
       if (!data.id) throw new Error('Vehicle not found');
