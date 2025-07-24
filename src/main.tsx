@@ -4,7 +4,7 @@
   import { Toaster } from "@/components/ui/sonner";
   import App from './App';
   import VehicleList from './components/VehicleList';
-  import VehicleDetail from './components/VehicleDetail';
+  import VehicleDetail from './components/VehicleDetails';
   import './index.css'; // Pastikan baris ini ada
 
   ReactDOM.createRoot(document.getElementById('root')!).render(

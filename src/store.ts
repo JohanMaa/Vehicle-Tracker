@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { toast } from 'sonner'; // Impor toast dari sonner, bukan @/components/ui/sonner
+import { toast } from 'sonner';
 
 interface Vehicle {
   id: number;
@@ -10,7 +10,7 @@ interface Vehicle {
 }
 
 interface VehicleDetail {
-  vehicleId: number;
+  id: number; // Changed from vehicleId to id to match db.json
   odometer: number;
   fuel_level: number;
   timestamp: string;
@@ -28,62 +28,7 @@ interface VehicleState {
   fetchVehicleDetail: (id: number) => Promise<void>;
 }
 
-// Mock data untuk pengujian
-const mockVehicles: Vehicle[] = [
-  {
-    id: 1,
-    name: "Toyota Avanza",
-    status: "ACTIVE",
-    speed: 60,
-    updated_at: "2025-07-23T10:00:00Z",
-  },
-  {
-    id: 2,
-    name: "Honda Civic",
-    status: "INACTIVE",
-    speed: 0,
-    updated_at: "2025-07-23T09:30:00Z",
-  },
-    {
-    id: 3,
-    name: "BMW E36",
-    status: "INACTIVE",
-    speed: 0,
-    updated_at: "2025-07-23T09:30:00Z",
-  },
-];
-
-const mockVehicleDetails: VehicleDetail[] = [
-  {
-    vehicleId: 1,
-    odometer: 123456.78,
-    fuel_level: 70.2,
-    timestamp: "2025-07-23T10:00:00Z",
-    latitude: -6.12,
-    longitude: 106.85,
-    speed: 60,
-  },
-  {
-    vehicleId: 2,
-    odometer: 98765.43,
-    fuel_level: 20.5,
-    timestamp: "2025-07-23T09:30:00Z",
-    latitude: -6.15,
-    longitude: 106.90,
-    speed: 0,
-  },
-    {
-    vehicleId: 3,
-    odometer: 98765.43,
-    fuel_level: 20.5,
-    timestamp: "2025-07-23T09:30:00Z",
-    latitude: -6.15,
-    longitude: 106.90,
-    speed: 0,
-  },
-];
-
-export const useVehicleStore = create<VehicleState>((set: (state: Partial<VehicleState> | ((state: VehicleState) => Partial<VehicleState>)) => void) => ({
+export const useVehicleStore = create<VehicleState>((set) => ({
   vehicles: [],
   selectedVehicle: null,
   loading: false,
@@ -91,9 +36,10 @@ export const useVehicleStore = create<VehicleState>((set: (state: Partial<Vehicl
   fetchVehicles: async () => {
     set({ loading: true, error: null });
     try {
-      // Simulasi panggilan API dengan delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      set({ vehicles: mockVehicles, loading: false });
+      const response = await fetch('http://localhost:3001/vehicles');
+      if (!response.ok) throw new Error('Failed to fetch vehicles');
+      const data = await response.json();
+      set({ vehicles: data, loading: false });
     } catch (error) {
       const message = 'Failed to fetch vehicles';
       set({ error: message, loading: false });
@@ -103,11 +49,11 @@ export const useVehicleStore = create<VehicleState>((set: (state: Partial<Vehicl
   fetchVehicleDetail: async (id: number) => {
     set({ loading: true, error: null });
     try {
-      // Simulasi panggilan API dengan delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      const vehicle = mockVehicleDetails.find((v) => v.vehicleId === id);
-      if (!vehicle) throw new Error('Vehicle not found');
-      set({ selectedVehicle: vehicle, loading: false });
+      const response = await fetch(`http://localhost:3001/vehicleDetails/${id}`);
+      if (!response.ok) throw new Error('Failed to fetch vehicle details');
+      const data = await response.json();
+      if (!data.id) throw new Error('Vehicle not found');
+      set({ selectedVehicle: data, loading: false });
     } catch (error) {
       const message = 'Failed to fetch vehicle details';
       set({ error: message, loading: false });
