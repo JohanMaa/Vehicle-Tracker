@@ -1,69 +1,98 @@
-# React + TypeScript + Vite
+# Vehicle Tracker Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A frontend dashboard built with React, TypeScript, TailwindCSS, Zustand, and ShadCN UI components to display vehicle telemetry data, developed for a frontend take-home assignment.
 
-Currently, two official plugins are available:
+## Features
+- **Vehicle List Page**: Displays vehicles in animated cards with name, status (as badges), speed, and updated time. Features a modern toggle-button filter for status (All, Active, Inactive) and sorting by name or speed.
+- **Vehicle Detail Page**: Shows detailed vehicle information (ID, odometer, fuel level, speed, timestamp, and location) with a refresh button. Location is visualized on an interactive map (optional, can be replaced with coordinates).
+- **Conditional Navbar**: "Back to List" button appears only on the vehicle detail page for intuitive navigation.
+- **API Integration**: Uses JSON Server for mock API endpoints (`GET /vehicles`, `GET /vehicleDetails/:id`). Ready for real API integration with provided endpoints.
+- **Responsive Design**: Modern UI with TailwindCSS, featuring gradients, animations, and responsive layouts.
+- **Error Handling**: Displays loading states with a spinner and error notifications using Sonner.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
+- **Frontend**: React, TypeScript, Vite
+- **Styling**: TailwindCSS, ShadCN UI, tailwindcss-animate
+- **State Management**: Zustand
+- **Routing**: React Router
+- **Map (Optional)**: React Leaflet
+- **Notifications**: Sonner
+- **Mock API**: JSON Server
 
-## Expanding the ESLint configuration
+## Prerequisites
+- Node.js v16 or higher
+- npm v8 or higher
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Setup Instructions
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd vehicle-tracker-dashboard
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+Install dependencies:npm install
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Install JSON Server globally (for mock API):npm install -g json-server
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Run JSON Server in a separate terminal:json-server --watch db.json --port 3001
+
+
+Run the development server:npm run dev
+
+
+Open http://localhost:5173 in your browser.
+
+Build Instructions
+To create a production build:
+npm run build
+
+Preview the production build:
+npm run preview
+
+API Endpoints
+
+GET http://localhost:3001/vehicles: Fetch list of vehicles.
+GET http://localhost:3001/vehicleDetails/:id: Fetch vehicle details by ID.
+To integrate a real API, update fetchVehicles and fetchVehicleDetail in src/store.ts with the provided endpoint URLs.
+
+Project Structure
+vehicle-tracker-dashboard/
+├── src/
+│   ├── components/
+│   │   ├── ui/              # ShadCN UI components (button, card, badge, sonner)
+│   │   ├── VehicleList.tsx   # Vehicle list page with toggle-button filter and sort
+│   │   └── VehicleDetail.tsx # Vehicle detail page with map or coordinates
+│   ├── lib/
+│   │   └── utils.ts         # Utility functions for TailwindCSS
+│   ├── App.tsx              # Main layout with conditional navbar
+│   ├── main.tsx             # Entry point
+│   ├── store.ts             # Zustand store with API integration
+│   └── index.css            # TailwindCSS and Leaflet styles
+├── db.json                  # Mock API data for JSON Server
+├── tailwind.config.js       # TailwindCSS configuration
+├── components.json          # ShadCN UI configuration
+├── tsconfig.json            # TypeScript configuration
+├── vite.config.ts           # Vite configuration
+├── package.json             # Dependencies and scripts
+└── README.md                # Project documentation
+
+Deployment
+
+To deploy to Vercel:npm install -g vercel
+vercel login
+vercel
+
+
+For a public mock API, host db.json on MockAPI.io or Render.
+
+Future Improvements
+
+Integrate real API endpoints provided by the assignment.
+Add more filters (e.g., by speed or updated time).
+Implement dark mode using TailwindCSS.
+Enhance map with custom vehicle icons (if retained).
+
+License
+MIT License```
